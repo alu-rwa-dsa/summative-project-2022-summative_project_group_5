@@ -5,6 +5,7 @@ import random
 
 
 class Customers(Restaurant):
+    # initialised the attributes that will be required when creating an object
     def __init__(self, id='', fname='', lname='', phone_no='', password=''):
         super().__init__(id, fname, lname, phone_no, password)
         self.id = id
@@ -14,13 +15,17 @@ class Customers(Restaurant):
         self.phone_no = phone_no
         self.queue = list()
 
+    # this mwthod allows the customer to make an order
     def make_order(self):
-
         while True:
             user_response = input("\nEnter the index of food you want to order: ")
             from csv import DictWriter
+            # the menu is opened for the customer to have a look at it
             with open("assets/menu.csv", "r") as csvfile:
                 reader = csv.DictReader(csvfile)
+                # when the customer enters the index of a certain food
+                # it is confirmed if the food is actually in the menu
+                # if it is there the customer proceeds with the order placement
                 for row in reader:
                     if row['id'] == user_response:
                         while True:
@@ -30,16 +35,21 @@ class Customers(Restaurant):
                                 print("The quantity should be an integer.")
                             else:
                                 break
+                        # the customer is asked about the location that they are in
+                        # this is to allow the system to calculate the distance and time taken for the delivery
                         location = choose_location()
                         price = int(row['price']) * quantity
                         print(
                             f"\nYour order of {quantity} {row['name']} worth RWF {price} to {location} has been placed. ")
+                        # we generate a random order id that will identify the orders differently
+                        # these order ids will enable the restaurant to take them from the queue systematically
                         order_id = random.randint(100, 1000)
                         customer_order = {'order_id': order_id, 'customer_id': self.id,
                                           'fname': self.fname, 'lname': self.lname, 'location': location,
                                           'food': row['name'], 'quantity': quantity, 'price': price}
                         self.queue.append(customer_order)
                         header = ['order_id', 'customer_id', 'fname', 'lname', 'location', 'food', 'quantity', 'price']
+                        # the order is then placed to the csv file of the orders
                         with open("assets/orders.csv", "a", newline='') as ordercsv:
                             writer = csv.DictWriter(ordercsv, fieldnames=header)
                             writer = writer.writerow(customer_order)
@@ -49,6 +59,8 @@ class Customers(Restaurant):
             print('\nKindly input the right index')
             self.make_order()
 
+    # this method asks the user if they want to place another order
+    # then the same process of placing an order is repeated all over again
     def another_order(self):
         print("\nDo you want to place another order?\nPress:\n1. if yes\n2. Proceed to checkout")
         while True:
@@ -73,10 +85,12 @@ class Customers(Restaurant):
             else:
                 break
 
+    # after the customer has placed an order and is satisfied, this method is called
+    # the customer is able to log out of the system
     def check_out(self):
-
         print(f"\n*** Order confirmed ***\n")
         amountToPay = 0
+        # everything that hte customer orders is printed out for them
         for order in self.queue:
             amountToPay += int(order['price'])
             print("Order id: ", order['order_id'])
@@ -90,7 +104,7 @@ class Customers(Restaurant):
         print('\nThank you for choosing us!')
         exit()
 
-
+# this class is for the admin of the restaurant
 class Admin(Restaurant):
     def __init__(self, id='', fname='', lname='', phone_no='', password=''):
         super().__init__(id, fname, lname, phone_no, password)
@@ -101,7 +115,9 @@ class Admin(Restaurant):
         self.password = password
         self.phone_no = phone_no
 
+    # the admin is able to update the menu
     def update_menu(self):
+        # the admin enters the different details that needs to be added to the menu
         while True:
             try:
                 input_id = int(input("\nEnter food ID: "))
@@ -129,15 +145,17 @@ class Admin(Restaurant):
                 print("Food price should be a number")
             else:
                 break
-
+        # the menu csv is fetched so that it could be updated
         self.foods = {"id": str(input_id), "name": input_name, "price": str(input_price)}
         header = ['id', 'name', 'price']
-
+        # all the details are appended to the menu csv
         with open("assets/menu.csv", "a", newline="") as menucsv:
             writer = csv.DictWriter(menucsv, fieldnames=header)
             writer.writerow(self.foods)
 
+    # the admin is able to view the orders using this method
     def view_orders(self):
+        # this list will be holding the orders that have been retrieved from the csv file
         self.order_list = []
 
         with open("assets/orders.csv", "r", newline='') as ordercsv:
@@ -145,8 +163,11 @@ class Admin(Restaurant):
             for row in reader:
                 one_food = {"order_id": row["order_id"], "customer_id": row['customer_id'], "location": row["location"],
                             "food": row["food"], "quantity": row["quantity"], "price": row["price"]}
+                # we loop through the orders in the csv
+                # then it gets appended to the list as a dictionary
                 self.order_list.append(one_food)
-
+            # this if statement checks if there are still orders in the list
+            # if the orders are not there it informs the admin that the orders are over
             if len(self.order_list) >= 1:
                 print('\n*** First Order on queue***\n')
             else:
@@ -160,6 +181,8 @@ class Admin(Restaurant):
                 print('Price: ', record['price'])
                 self.take_next_order()
 
+    # when an admin has finished taking an order they should be able to take the next order
+    # then the order that has been taken should be removed from the list and the csv
     def take_next_order(self):
         file = open('assets/orders.csv', 'r')
         reader = csv.reader(file)
@@ -169,6 +192,8 @@ class Admin(Restaurant):
         # if they correspond, it will be removed
         # this if found variable is used to indicate if the data is in the csv file or not
         while True:
+            # the user inputs the order id
+            # the order id is checked if it is in the queue then it is deleted
             order_id = input('\n Please enter order id to take this order: ')
             for i in range(len(self.order_list)):
                 if self.order_list[i]['order_id'] == order_id:
@@ -177,22 +202,26 @@ class Admin(Restaurant):
                     print(f"You have taken order:\n{next_order}")
                     break
             IfFound = False
+            # if the id that  the admin has put is in the list it means it is in the csv as well
+            # we use this for loop to check if the data is in the csv
             for row in reader:
                 if row[0] == str(order_id):
+                    # the variable is changed to true if the data is there in the csv
                     IfFound = True
 
                 else:
+                    # the rest of the ids that are not in the csv are  appended to the empty list that we created
+
                     list1.append(row)
             file.close()
 
             # IfFound remains false that means that the information was not found and the print statement below is
-            # printed
             if not IfFound:
                 print('Invalid id')
                 self.take_next_order()
 
-            else:  # if it is found the file is opened again and written with the information that remained in
-                # the list
+            else:  # if it is found the file is opened again and written with the information that
+                # was appended to the empty list above
                 # after the order has been removed
                 file = open('assets/orders.csv', 'w+', newline='')
                 writer = csv.writer(file)
@@ -205,3 +234,4 @@ class Admin(Restaurant):
                 else:
                     print('kindly press number 1')
                 return IfFound
+#             the process keeps on repeating until all the orders are done
