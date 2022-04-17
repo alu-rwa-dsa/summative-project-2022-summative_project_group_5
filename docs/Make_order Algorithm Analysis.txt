@@ -1,0 +1,23 @@
+﻿Make_order documentation
+
+
+This app has a functionality of queue collection for structuring data, when the users input the index of their wish
+products, the CSV file will open itself and read the file(the indexes of the product which has chosen), the compiler
+will check if the user_response(index) is in the Csv file, when compiler find the user response is not in the csv file,
+user will get a message informing him/her to input the right index, therefore, when the compiler find the index of
+product in Csv file, a list of locations will be presented to them and choose the location where he/she currently stay,
+after they will get a short message notifying them that his/her order with both product name and price has been placed,
+at the side of admin customer orders will be held in the variable name called customer_order in dictionary with item and
+its value, the customer order hold order_id, customer_id, fname, lname, location, food and price, So for the sake of
+customer security the app collect the customer_order in a queue linear collection, ultimately the customer_order will
+automatically appended to orders.csv file.
+
+
+The time complexity is big O(n), because the running time increases the most linearly with the size input, however for
+the insertion and removal of the item in the queue collection, both the average and worst case have a big O(1), no
+matter how much data will be inserted or removed, it will execute in constant time.
+
+
+The space complexity is also big O(n), means that for each input item up to a fixed K bytes, the amount of memory for
+this algorithm will grow not faster than the linearly K*n, So the cost of memory increases for the number of input
+elements at a rate that is linear.
