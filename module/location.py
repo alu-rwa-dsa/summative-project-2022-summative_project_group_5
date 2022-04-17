@@ -1,5 +1,6 @@
 import heapq
 
+# in the graph we put the different of the areas that we are accessible with the amount of time to do the delivery
 dijkstra_graph = {
     "Kibagabaga": {"Nyarutarama": [3.7, 8], "Kanombe": [2.9, 7]},
     "Nyarutarama": {"Kibagabaga": [3.7, 8], "Kanombe": [6.0, 14], "Remera KFC": [4.0, 8], "Gishushu": [2.1, 5],
@@ -11,6 +12,8 @@ dijkstra_graph = {
 }
 
 
+# this function allows the user to choose the location that they stay so that the delivery could be done in that
+# particular place
 def choose_location():
     src = None
     print("Select your current location")
@@ -57,12 +60,12 @@ def choose_location():
 
     return src
 
-
+# this function prints the distance and time from the restaurant to the customers place
 def printing(distances, start_node, target_node):
     print("The total distance from Remera KFC to your destination is:  " + str(distances[target_node][0]) + " km")
     print("The total time it will take for the  for the delivey is:  " + str(distances[target_node][1]) + " minutes")
 
-
+# the dijkstras algorithm comes in here
 def dijkstra(graph, start):
     """Visit all nodes and calculate the shortest paths to each from start"""
     queue = [(0, start)]
