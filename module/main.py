@@ -17,6 +17,7 @@ customer_details = [[10, 'Mike', 'Kip', 1000, 100000], [20, 'Patch', 'Pati', 200
 #     writer.writerows(customer_details)
 
 
+# this method is for displaying the menu of the restaurant
 def main():
     print("\nWelcome to KFC HOME DELIVERY \n")
     print("*** OUR MENU ***\n")
