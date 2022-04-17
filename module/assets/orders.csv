@@ -1,0 +1,5 @@
+order_id,customer_id,fname,lname,location,food,quantity,price
+387,20,Patch,Pati,Kacyiru,BBQ Pizza,1,7500
+529,15,Demarillac,Izere,Kacyiru,Spanish Omelette,3,12000
+476,15,Demarillac,Izere,Kibagabaga,Beef Liver stew with Chips,2,7000
+145,15,Demarillac,Izere,Gishushu,Soda,4,4000

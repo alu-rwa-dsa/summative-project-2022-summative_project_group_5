@@ -1,0 +1,28 @@
+﻿Dijikstra Algorithm Complexity Analysis
+Space complexity
+The space complexity of our algorithm is O(v) where v is the number of vertices (nodes) in our graph.
+
+
+Time Complexity
+To reduce time complexity in our algorithm we implemented our algorithm using the binary heap and priority queue which is  O(E log V).
+1. Create V binary heap, where V is the number of vertices in our graph. This contains our adjacency list: The vertex which represents the city  and its cost(time and distance)
+2. Root vertex distance = 0, all others = infinity
+3. Condition controlled loop whilst heap is not empty:
+   1. Find vertex with lowest distance cost from binary heap (i)
+   2. For all adjacent vertices (j) to lowest cost vertex, check if they are in heap.
+   3. If in heap and distance value is more than distance i -> j + i, update distance of j
+Worst Case Time Complexity
+Our inner loop statements occur O(V + E) times, where V is number of vertices and E is number of edges, with the decrease key operation taking O(logV) meaning the total time complexity for our implementation is O((V + E)*logV) as E -> V this simplifies to O(ElogV). Where we have the largest number of decrease key operations (which take logV).
+* Inner loop operations O(V + E) times
+* Decrese key takes O(logV)
+Total O(ElogV) where decrease key happens the most amount of times where reperesnetes the edges of our graph(that is distance) and V represents the vertices in the graph that is the cities
+Average Case Time Complexity
+The average running time in this case will be O(EVlog(E/V)logV). We know this since our inner loop still takes O(V + E) times, the only difference is the amount of decrease key operations is bounded by O(Vlog(E/V)) meaning that there is a constant on the calculations.
+* Inner loop operations O(V + E) times
+* Decrese key takes O(logV)
+Total O(EVlog(E/V)logV) where decrease key happens O(log(E/V) times
+Best Case Time Complexity
+Our best case is identical to our worst case however it is when the number of key operations are the smallest. this means we will have a complexity of O(ElogV) still, just will the number of logV operations reduced.
+* Inner loop operations O(V + E) times
+* Decrese key takes O(logV)
+* Total O(ElogV) where decrease key happens the least amount of times
