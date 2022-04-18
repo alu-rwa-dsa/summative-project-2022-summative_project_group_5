@@ -72,8 +72,8 @@ def login():
                     customer.view_menuu()
                     # after seeing the menu the can make their order of what they would like to have
                     customer.make_order()
+                    print('go away')
                     break
-
             # if we check in the csv and notice that the info is not there we prompt the
             # user to create an account with us
             if count == 0:
@@ -112,10 +112,11 @@ def admin_login():
             if count == 0:
                 print("wrong input, try again.")
 
+
 # after the admin has logged in a number of actions that they want to perform is asked to them
 # they choose whatever they want to do at that particular time
 def action(admin):
-    print('\nWhat would you like to do?\npress\n1. to check orders\n2. to update menu\n3. to view menu\n4. to exit')
+    print('\nPRESS\n1. to check orders\n2. to update menu\n3. to view menu\n4. to EXIT')
     user_response = input('Enter: ')
     if user_response == '1':
         Admin.view_orders(admin)
@@ -125,7 +126,7 @@ def action(admin):
         Admin.view_menuu(admin)
     elif user_response == '4':
         print("Goodbye, Have a great day!")
-        exit()
+        main()
     else:
         print("Kindly input one of the choices given above")
     action(admin)
