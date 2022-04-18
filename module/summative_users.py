@@ -104,6 +104,7 @@ class Customers(Restaurant):
         print('\nThank you for choosing us!')
         exit()
 
+
 # this class is for the admin of the restaurant
 class Admin(Restaurant):
     def __init__(self, id='', fname='', lname='', phone_no='', password=''):
@@ -152,6 +153,8 @@ class Admin(Restaurant):
         with open("assets/menu.csv", "a", newline="") as menucsv:
             writer = csv.DictWriter(menucsv, fieldnames=header)
             writer.writerow(self.foods)
+        print(f"{input_name} has been updated successfully to the menu\nWould you like to do anything else?")
+        Admin()
 
     # the admin is able to view the orders using this method
     def view_orders(self):
@@ -227,10 +230,12 @@ class Admin(Restaurant):
                 writer = csv.writer(file)
                 writer.writerows(list1)
             file.close()
-            user_input = input('When done press number 1: ')
+            user_input = input('Press 1 to take the next order\nPress 2 to go back to main menu\nEnter: ')
             while True:
                 if user_input == '1':
                     self.view_orders()
+                elif user_input == '2':
+                    Admin()
                 else:
                     print('kindly press number 1')
                 return IfFound
